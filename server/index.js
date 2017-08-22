@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
 const express = require('express');
-const { compose } = require('./compose');
+const compose = require('./compose-refactor');
 
 const app = express();
 
@@ -13,10 +13,12 @@ app.set('port', (process.env.PORT || 3001));
 //   jurisdiction: {All the topic info for the specified jurisdiction (county)}
 // }
 
-app.get('/api/:jurisdiction/:topic', (req, res) => {
-  compose(req.params.jurisdiction, req.params.topic, (content) => {
-    res.json(content);
-  });
-});
+app.get('/api/:jurisdiction/:topic', compose);
+
+// app.get('/api/:jurisdiction/:topic', (req, res) => {
+//   compose(req.params.jurisdiction, req.params.topic, (content) => {
+//     res.json(content);
+//   });
+// });
 
 app.listen(app.get('port'), () => console.log(`Find the server at: http://localhost:${app.get('port')}/`));
